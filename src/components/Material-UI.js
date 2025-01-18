@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography, TextField } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography, TextField, Button, Select, MenuItem } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import IconButton from '@mui/material/IconButton';
+import '../styles.css';
 
 const MuiTableWithInputs = () => {
-  const rows = [
-    { id: 1, tagID: 0, name: 'NameText', displayNameID: 0, offset: 'Not Used', manualValue: '0', displayTextID: 0, powerID: 0, sensorID: 0, typeBool: 0, },
-    { id: 2, tagID: 0, name: 'NameText', displayNameID: 0, offset: 'Not Used', manualValue: '0', displayTextID: 0, powerID: 0, sensorID: 0, typeBool: 0, },
-  ];
+  const [rows, setRows] = useState([
+    { id: 1, tagID: 0, name: 'NameText', displayTypeID: 0, offset: 'Not Used', manualValue: '0', displayTextID: 0, powerID: 0, sensorID: 0, typeBool: 0, },
+    { id: 2, tagID: 0, name: 'NameText', displayTypeID: 0, offset: 'Not Used', manualValue: '0', displayTextID: 0, powerID: 0, sensorID: 0, typeBool: 0, },
+  ]);
 
   // State to hold the number value
   const [number, setNumber] = useState(1);
@@ -24,6 +25,48 @@ const MuiTableWithInputs = () => {
       setNumber(number - 1)
   };
 
+  const displayType = [
+    { label: "None", value: 0 },
+    { label: "dropdownItem1", value: 1 },
+    { label: "dropdownItem2", value: 2 },
+    { label: "dropdownItem3", value: 3 },
+  ];
+
+  const displayText = [
+    { label: "Not Used", value: 0 },
+    { label: "dropdownItem1", value: 1 },
+    { label: "dropdownItem2", value: 2 },
+    { label: "dropdownItem3", value: 3 },
+    { label: "dropdownItem4", value: 4 },
+  ];
+
+  const powerType = [
+    { label: "Not Used", value: 0 },
+    { label: "dropdownItem1", value: 1 },
+    { label: "dropdownItem2", value: 2 },
+    { label: "dropdownItem3", value: 3 },
+    { label: "dropdownItem4", value: 4 },
+    { label: "dropdownItem5", value: 5 },
+  ];
+
+  const sensorType = [
+    { label: "Not Used", value: 0 },
+    { label: "dropdownItem1", value: 1 },
+    { label: "dropdownItem2", value: 2 },
+    { label: "dropdownItem3", value: 3 },
+    { label: "dropdownItem4", value: 4 },
+    { label: "dropdownItem5", value: 5 },
+    { label: "dropdownItem6", value: 6 },
+  ];
+
+
+
+
+  const handleChangeType = (rowId, field, value) => {
+    console.log(`Row ID: ${rowId}, Field: ${field}, Value: ${value}`);
+    // Add logic here to update state or data model
+  };
+
   const handleNameChange = (rowId, field, value) => {
     console.log(`Row ID: ${rowId}, Field: ${field}, Value: ${value}`);
     // Add logic here to update state or data model
@@ -34,9 +77,23 @@ const MuiTableWithInputs = () => {
     alert(`Button clicked for row ${rowId}`);
   };
 
+
+  const handleSelectChange = (event, id) => {
+    const newRows = rows.map(row => {
+      if (row.id === id) {
+        return { ...row, displayTypeID: event.target.value };
+      }
+      return row;
+    });
+    setRows(newRows);
+  };
+
+
+
   var tableBoarder = { marginTop: 1, borderRight: '5px solid #ccc' };
   var headerBoarder = { borderRight: '5px solid #ccc', borderLeft: '5px solid #ccc' };
   var dataBoarder = { borderRight: '2px solid #ccc' };
+
 
   return (
     <div>
@@ -84,8 +141,6 @@ const MuiTableWithInputs = () => {
         alignItems: 'center', // Centers vertically
       }}>
         <Typography variant="h6">Sensor Input Information Screen</Typography>
-        
-        
     </Box>,
     
     <TableContainer component={Paper} sx={tableBoarder}>
@@ -107,21 +162,110 @@ const MuiTableWithInputs = () => {
           {rows.map((row) => (
             <TableRow key={row.id} style={{ backgroundColor: row.id > number ? 'yellow' : 'transparent' }}>
               <TableCell sx={dataBoarder}>
-                <TextField
-                  defaultValue={row.name}
-                  onChange={(e) => handleNameChange(row.id, 'name', e.target.value)}
-                  variant="outlined"
-                  size="small"
-                />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>{row.tagID}</span> {/* Text */}
+                  <Button 
+                    variant="contained" 
+                    onClick={() => handleChangeType(row.name)}
+                    size="small" // Makes the button smaller
+                    className="greyButton"
+                    style={{ backgroundColor: '#bdbdbd', color: '#fff',
+                      marginLeft: '10px', width: '3px',padding: '0px',minWidth: '30px'}} // Adds space between text and button
+                  >
+                    ..
+                  </Button>
+                </div>
               </TableCell>
               <TableCell sx={dataBoarder}>
                 <TextField
-                  defaultValue={row.age}
+                  defaultValue={row.name}
                   //type="number"
                   onChange={(e) => handleNameChange(row.id, 'displayname', e.target.value)}
                   //variant="outlined"
                   size="small"
                 />
+              </TableCell>
+              <TableCell sx={dataBoarder}>
+                <Select
+                    style={{ 
+                      width: '100px',minWidth: '150px'}}
+                    value={row.displayTypeID}
+                    onChange={(event) => handleSelectChange(event, row.id)}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                  >
+                    {displayType.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+              </TableCell>
+              <TableCell sx={dataBoarder}>
+                <TextField
+                  defaultValue={row.offset}
+                  //type="number"
+                  onChange={(e) => handleNameChange(row.id, 'displayname', e.target.value)}
+                  //variant="outlined"
+                  size="small"
+                />
+              </TableCell>
+              <TableCell sx={dataBoarder}>
+                <TextField
+                  defaultValue={row.manualValue}
+                  //type="number"
+                  onChange={(e) => handleNameChange(row.id, 'displayname', e.target.value)}
+                  //variant="outlined"
+                  size="small"
+                />
+              </TableCell>
+              <TableCell sx={dataBoarder}>
+                <Select
+                    style={{ 
+                      width: '100px',minWidth: '150px'}}
+                    value={row.displayTextID}
+                    onChange={(event) => handleSelectChange(event, row.id)}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                  >
+                    {displayText.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+              </TableCell>
+              <TableCell sx={dataBoarder}>
+                <Select
+                    style={{ 
+                      width: '100px',minWidth: '150px'}}
+                    value={row.displayTextID}
+                    onChange={(event) => handleSelectChange(event, row.id)}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                  >
+                    {powerType.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+              </TableCell>
+              <TableCell sx={dataBoarder}>
+                <Select
+                    style={{ 
+                      width: '100px',minWidth: '150px'}}
+                    value={row.displayTextID}
+                    onChange={(event) => handleSelectChange(event, row.id)}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                  >
+                    {sensorType.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
               </TableCell>
             </TableRow>
           ))}
