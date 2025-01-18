@@ -22,6 +22,11 @@ const MuiTableWithInputs = () => {
     // Add logic here to update state or data model
   };
 
+  // Function to handle the button click
+  const handleButtonClick = (rowId) => {
+    alert(`Button clicked for row ${rowId}`);
+  };
+
   var tableBoarder = { marginTop: 1, borderRight: '5px solid #ccc' };
   var headerBoarder = { borderRight: '5px solid #ccc' };
   var dataBoarder = { borderRight: '2px solid #ccc' };
@@ -42,7 +47,7 @@ const MuiTableWithInputs = () => {
           <Table>
             <TableBody>
               <TableRow>
-                <TableCell>Current Number</TableCell>
+                <TableCell>Total Number of SI's</TableCell>
                 <TableCell>{number}</TableCell>
                 <TableCell sx={{padding: '4px' }} >
                   {/* Buttons to change the number */}
@@ -86,6 +91,10 @@ const MuiTableWithInputs = () => {
           <TableCell sx={headerBoarder}>Display Type</TableCell>
           <TableCell sx={headerBoarder}>Offset</TableCell>
           <TableCell sx={headerBoarder}>Manual Value or NC/NO (Select to Change)</TableCell>
+          <TableCell sx={headerBoarder}>Display Text (Select to Change)</TableCell>
+          <TableCell sx={headerBoarder}>Temp./ GPM / CFM / Pwr Factor SI</TableCell>
+          <TableCell sx={headerBoarder}>Humed./ PSI/Temp,/ Diff./ Enthal. Diff.</TableCell>
+          <TableCell sx={headerBoarder} onClick={handleButtonClick}>Auto/Manual (Click here for all)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
