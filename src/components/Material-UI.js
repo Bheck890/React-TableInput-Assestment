@@ -1,34 +1,41 @@
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography, TextField, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography, TextField } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import IconButton from '@mui/material/IconButton';
 
 const MuiTableWithInputs = () => {
   const rows = [
-    { id: 1, name: 'John Doe', age: 25 },
-    { id: 2, name: 'Jane Smith', age: 30 },
-    { id: 3, name: 'Alice Johnson', age: 28 },
+    { id: 1, tagID: 0, name: 'NameText', displayNameID: 0, offset: 'Not Used', manualValue: '0', displayTextID: 0, powerID: 0, sensorID: 0, typeBool: 0, },
+    { id: 2, tagID: 0, name: 'NameText', displayNameID: 0, offset: 'Not Used', manualValue: '0', displayTextID: 0, powerID: 0, sensorID: 0, typeBool: 0, },
   ];
 
   // State to hold the number value
-  const [number, setNumber] = useState(20);
+  const [number, setNumber] = useState(1);
 
   // Functions to change the number
-  const increment = () => setNumber(number + 1);
-  const decrement = () => setNumber(number - 1);
+  const increment = () => 
+  {
+    if (number <= 111)
+      setNumber(number + 1)
+  };
+  const decrement = () => 
+  {
+    if (number > 0)
+      setNumber(number - 1)
+  };
 
-  const handleInputChange = (rowId, field, value) => {
+  const handleNameChange = (rowId, field, value) => {
     console.log(`Row ID: ${rowId}, Field: ${field}, Value: ${value}`);
     // Add logic here to update state or data model
   };
 
   // Function to handle the button click
-  const handleButtonClick = (rowId) => {
+  const handleModeChange = (rowId) => {
     alert(`Button clicked for row ${rowId}`);
   };
 
   var tableBoarder = { marginTop: 1, borderRight: '5px solid #ccc' };
-  var headerBoarder = { borderRight: '5px solid #ccc' };
+  var headerBoarder = { borderRight: '5px solid #ccc', borderLeft: '5px solid #ccc' };
   var dataBoarder = { borderRight: '2px solid #ccc' };
 
   return (
@@ -50,13 +57,12 @@ const MuiTableWithInputs = () => {
                 <TableCell>Total Number of SI's</TableCell>
                 <TableCell>{number}</TableCell>
                 <TableCell sx={{padding: '4px' }} >
-                  {/* Buttons to change the number */}
                   <IconButton  
                     sx={{transform: 'rotate(180deg)' }} 
-                    variant="contained" color="primary" onClick={increment}>
+                    variant="contained" color="primary" onClick={decrement}>
                     <PlayArrowIcon />
                   </IconButton>
-                  <IconButton variant="contained" color="secondary" onClick={decrement}>
+                  <IconButton variant="contained" color="secondary" onClick={increment}>
                     <PlayArrowIcon />
                   </IconButton>
                 </TableCell>
@@ -94,16 +100,16 @@ const MuiTableWithInputs = () => {
           <TableCell sx={headerBoarder}>Display Text (Select to Change)</TableCell>
           <TableCell sx={headerBoarder}>Temp./ GPM / CFM / Pwr Factor SI</TableCell>
           <TableCell sx={headerBoarder}>Humed./ PSI/Temp,/ Diff./ Enthal. Diff.</TableCell>
-          <TableCell sx={headerBoarder} onClick={handleButtonClick}>Auto/Manual (Click here for all)</TableCell>
+          <TableCell sx={headerBoarder} onClick={handleModeChange}>Auto/Manual (Click here for all)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow key={row.id} style={{ backgroundColor: row.id > number ? 'yellow' : 'transparent' }}>
               <TableCell sx={dataBoarder}>
                 <TextField
                   defaultValue={row.name}
-                  onChange={(e) => handleInputChange(row.id, 'name', e.target.value)}
+                  onChange={(e) => handleNameChange(row.id, 'name', e.target.value)}
                   variant="outlined"
                   size="small"
                 />
@@ -111,9 +117,9 @@ const MuiTableWithInputs = () => {
               <TableCell sx={dataBoarder}>
                 <TextField
                   defaultValue={row.age}
-                  type="number"
-                  onChange={(e) => handleInputChange(row.id, 'age', e.target.value)}
-                  variant="outlined"
+                  //type="number"
+                  onChange={(e) => handleNameChange(row.id, 'displayname', e.target.value)}
+                  //variant="outlined"
                   size="small"
                 />
               </TableCell>
