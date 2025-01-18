@@ -61,9 +61,24 @@ const MuiTableWithInputs = () => {
 
 
 
-
+  //Change the type of point number
   const handleChangeType = (rowId, field, value) => {
     console.log(`Row ID: ${rowId}, Field: ${field}, Value: ${value}`);
+    // Add logic here to update state or data model
+  };
+
+  //Change the type of point number
+  const handleStateChange = (id, value) => {
+
+    const newRows = rows.map(row => {
+      if (row.id === id) {
+        return { ...row, typeBool: value };
+      }
+      return row;
+    });
+    setRows(newRows);
+
+    //console.log(`Row ID: ${rowId}, Field: ${field}, Value: ${value}`);
     // Add logic here to update state or data model
   };
 
@@ -72,16 +87,51 @@ const MuiTableWithInputs = () => {
     // Add logic here to update state or data model
   };
 
-  // Function to handle the button click
+
+  // Function to handle the Select all Auto/Manual System
   const handleModeChange = (rowId) => {
     alert(`Button clicked for row ${rowId}`);
   };
 
-
-  const handleSelectChange = (event, id) => {
+  
+  //Selects the Drop Down
+  const handleSelectDisplayType = (event, id) => {
     const newRows = rows.map(row => {
       if (row.id === id) {
         return { ...row, displayTypeID: event.target.value };
+      }
+      return row;
+    });
+    setRows(newRows);
+  };
+
+  //Selects the Drop Down
+  const handleSelectDisplayText = (event, id) => {
+    const newRows = rows.map(row => {
+      if (row.id === id) {
+        return { ...row, displayTextID: event.target.value };
+      }
+      return row;
+    });
+    setRows(newRows);
+  };
+
+  //Selects the Drop Down
+  const handleSelectPowerType = (event, id) => {
+    const newRows = rows.map(row => {
+      if (row.id === id) {
+        return { ...row, powerID: event.target.value };
+      }
+      return row;
+    });
+    setRows(newRows);
+  };
+
+  //Selects the Drop Down
+  const handleSelectSensorType = (event, id) => {
+    const newRows = rows.map(row => {
+      if (row.id === id) {
+        return { ...row, sensorID: event.target.value };
       }
       return row;
     });
@@ -162,7 +212,7 @@ const MuiTableWithInputs = () => {
           {rows.map((row) => (
             <TableRow key={row.id} style={{ backgroundColor: row.id > number ? 'yellow' : 'transparent' }}>
               <TableCell sx={dataBoarder}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>{row.tagID}</span> {/* Text */}
                   <Button 
                     variant="contained" 
@@ -190,7 +240,7 @@ const MuiTableWithInputs = () => {
                     style={{ 
                       width: '100px',minWidth: '150px'}}
                     value={row.displayTypeID}
-                    onChange={(event) => handleSelectChange(event, row.id)}
+                    onChange={(event) => handleSelectDisplayType(event, row.id)}
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
                   >
@@ -224,7 +274,7 @@ const MuiTableWithInputs = () => {
                     style={{ 
                       width: '100px',minWidth: '150px'}}
                     value={row.displayTextID}
-                    onChange={(event) => handleSelectChange(event, row.id)}
+                    onChange={(event) => handleSelectDisplayText(event, row.id)}
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
                   >
@@ -239,8 +289,8 @@ const MuiTableWithInputs = () => {
                 <Select
                     style={{ 
                       width: '100px',minWidth: '150px'}}
-                    value={row.displayTextID}
-                    onChange={(event) => handleSelectChange(event, row.id)}
+                    value={row.powerID}
+                    onChange={(event) => handleSelectPowerType(event, row.id)}
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
                   >
@@ -255,8 +305,8 @@ const MuiTableWithInputs = () => {
                 <Select
                     style={{ 
                       width: '100px',minWidth: '150px'}}
-                    value={row.displayTextID}
-                    onChange={(event) => handleSelectChange(event, row.id)}
+                    value={row.sensorID}
+                    onChange={(event) => handleSelectSensorType(event, row.id)}
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
                   >
@@ -266,6 +316,21 @@ const MuiTableWithInputs = () => {
                       </MenuItem>
                     ))}
                   </Select>
+              </TableCell>
+              <TableCell sx={dataBoarder}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>{row.typeBool == 0 ? "AUTO" : "Manual"}</span> 
+                  <Button 
+                    variant="contained" 
+                    onClick={() => handleStateChange(row.id, row.typeBool == 0 ? 1 : 0)}
+                    size="small" // Makes the button smaller
+                    className="greyButton"
+                    style={{ backgroundColor: '#bdbdbd', color: '#fff',
+                      marginLeft: '10px', width: '3px',padding: '0px',minWidth: '30px'}} // Adds space between text and button
+                  >
+                    ..
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}
