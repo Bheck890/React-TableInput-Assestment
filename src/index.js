@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import MuiTableWithInputs from './Material-UI'; // Import your component
+import MuiTableWithInputs from './components/Material-UI.js'; // Import your component
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

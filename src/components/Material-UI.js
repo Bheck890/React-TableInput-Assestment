@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-//import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField } from '@mui/material';
-//import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography, TextField } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography, TextField, Button } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-//import { MdArrowLeft } from "react-icons/md";
+import IconButton from '@mui/material/IconButton';
 
 const MuiTableWithInputs = () => {
   const rows = [
@@ -42,25 +40,20 @@ const MuiTableWithInputs = () => {
       }}>
         <TableContainer component={Paper} sx={{ marginTop: 2, width: 'auto' }}>
           <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Label</TableCell>
-                <TableCell>Number</TableCell>
-                <TableCell>Action</TableCell>
-              </TableRow>
-            </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell>Current Number</TableCell>
                 <TableCell>{number}</TableCell>
                 <TableCell sx={{padding: '4px' }} >
                   {/* Buttons to change the number */}
-                  <Button size="small" 
+                  <IconButton  
                     sx={{transform: 'rotate(180deg)' }} 
-                    variant="contained" color="primary" startIcon={<PlayArrowIcon />} onClick={increment}>
-                  </Button>
-                  <Button size="small" variant="contained" color="secondary" startIcon={<PlayArrowIcon />} onClick={decrement}>
-                  </Button>
+                    variant="contained" color="primary" onClick={increment}>
+                    <PlayArrowIcon />
+                  </IconButton>
+                  <IconButton variant="contained" color="secondary" onClick={decrement}>
+                    <PlayArrowIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             </TableBody>
