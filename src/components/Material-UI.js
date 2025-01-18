@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography, TextField, Button, Select, MenuItem } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import IconButton from '@mui/material/IconButton';
+import HeaderTable from '../controls/HeaderTable';
+import {useNumber} from '../components/TypeSensorCounts'
 import '../styles.css';
 
 const MuiTableWithInputs = () => {
@@ -10,20 +10,7 @@ const MuiTableWithInputs = () => {
     { id: 2, tagID: 0, name: 'NameText', displayTypeID: 0, offset: 'Not Used', manualValue: '0', displayTextID: 0, powerID: 0, sensorID: 0, typeBool: 0, },
   ]);
 
-  // State to hold the number value
-  const [number, setNumber] = useState(1);
-
-  // Functions to change the number
-  const increment = () => 
-  {
-    if (number <= 111)
-      setNumber(number + 1)
-  };
-  const decrement = () => 
-  {
-    if (number > 0)
-      setNumber(number - 1)
-  };
+  const { sensorInputCount } = useNumber();
 
   const displayType = [
     { label: "None", value: 0 },
@@ -59,7 +46,11 @@ const MuiTableWithInputs = () => {
     { label: "dropdownItem6", value: 6 },
   ];
 
-
+ // Function to save data to local storage to simulate file saving
+  const saveData = (newRows) => {
+    localStorage.setItem('tableData', JSON.stringify(newRows));
+    setRows(newRows);
+  };
 
   //Change the type of point number
   const handleChangeType = (rowId, field, value) => {
@@ -77,7 +68,8 @@ const MuiTableWithInputs = () => {
       return row;
     });
     setRows(newRows);
-
+    
+    saveData(newRows);
     //console.log(`Row ID: ${rowId}, Field: ${field}, Value: ${value}`);
     // Add logic here to update state or data model
   };
@@ -147,7 +139,7 @@ const MuiTableWithInputs = () => {
 
   return (
     <div>
-    <Box 
+    {/* <Box 
       sx={{
         width: '100%',
         backgroundColor: '#c0c0c0',
@@ -162,7 +154,7 @@ const MuiTableWithInputs = () => {
             <TableBody>
               <TableRow>
                 <TableCell>Total Number of SI's</TableCell>
-                <TableCell>{number}</TableCell>
+                <TableCell>{sensorInputCount}</TableCell>
                 <TableCell sx={{padding: '4px' }} >
                   <IconButton  
                     sx={{transform: 'rotate(180deg)' }} 
@@ -177,8 +169,8 @@ const MuiTableWithInputs = () => {
             </TableBody>
           </Table>
         </TableContainer>
-    </Box>,
-    
+    </Box>, */}
+    <HeaderTable />
     
     <Box 
       sx={{
@@ -210,7 +202,7 @@ const MuiTableWithInputs = () => {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.id} style={{ backgroundColor: row.id > number ? 'yellow' : 'transparent' }}>
+            <TableRow key={row.id} style={{ backgroundColor: row.id > sensorInputCount ? 'yellow' : 'transparent' }}>
               <TableCell sx={dataBoarder}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>{row.tagID}</span> {/* Text */}

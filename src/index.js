@@ -2,12 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import MuiTableWithInputs from './components/Material-UI.js'; // Import your component
+import { NumberProvider } from './components/TypeSensorCounts.js';
+import MuiTableWithInputs from './components/Material-UI.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <MuiTableWithInputs />
+    <NumberProvider>
+      <MuiTableWithInputs />
+    </NumberProvider>
   </React.StrictMode>
 );
 
