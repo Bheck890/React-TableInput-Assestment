@@ -6,8 +6,10 @@ import '../styles.css';
 
 export const TableRowComponent = ({ row }) => {
 
+    console.log("Row data in TableRowComponent:", row);
     const { sensorInputCount } = useNumber();
     const {
+        rows,
         handleChangeType,
         handleNameChange,
         handleSelectDisplayType,

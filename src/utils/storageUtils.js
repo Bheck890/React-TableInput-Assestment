@@ -2,15 +2,15 @@
 export const loadData = () => {
     // Retrieve the JSON string, 
     // from the browser Storage with item Name
-    const dataString = localStorage.getItem('tableData');
+    const dataString = localStorage.getItem('sensorData');
     // Parse the JSON string back to JavaScript array, 
     // else make the array
-    return dataString ? JSON.parse(dataString) : generateRows;
+    return dataString ? JSON.parse(dataString) : generateRows();
   };
   
   export const saveData = (newRows) => {
     //Saving Local Browser Storage
-    localStorage.setItem('tableData', JSON.stringify(newRows));
+    localStorage.setItem('sensorData', JSON.stringify(newRows));
   };
 
 
