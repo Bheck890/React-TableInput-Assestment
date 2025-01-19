@@ -1,6 +1,6 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableRow, Paper, Box, Typography, TextField, Button, Select, MenuItem } from '@mui/material';
 import HeaderTable from '../controls/HeaderTable';
+import { Table, TableBody, TableCell, TableContainer, TableRow, Paper, Box, Typography, TextField, Button, Select, MenuItem } from '@mui/material';
 import {useNumber} from '../data/dataValues'
 import {useTableData} from '../data/useTableData'
 import {displayType, displayText, powerType, sensorType } from '../data/tableOptions';
@@ -25,10 +25,8 @@ const MuiTableWithInputs = () => {
   var tableBoarder = { marginTop: 1, borderRight: '5px solid #ccc' };
   var dataBoarder = { borderRight: '2px solid #ccc' };
 
-
   return (
     <div>
-    {}
     <HeaderTable />
     
     <Box 
@@ -53,16 +51,7 @@ const MuiTableWithInputs = () => {
               <TableCell sx={dataBoarder}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>{row.tagID}</span>
-                  <Button 
-                    variant="contained" 
-                    onClick={() => handleChangeType(row.name)}
-                    size="small" 
-                    className="greyButton"
-                    style={{ backgroundColor: '#bdbdbd', color: '#fff',
-                      marginLeft: '10px', width: '3px',padding: '0px',minWidth: '30px'}} // Removes space between text and button
-                  >
-                    ..
-                  </Button>
+                  <ChangeButton onChange={() => handleChangeType(row.name)}/>
                 </div>
               </TableCell>
               <TableCell sx={dataBoarder}>
@@ -95,16 +84,7 @@ const MuiTableWithInputs = () => {
               <TableCell sx={dataBoarder}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>{row.typeBool === 0 ? "AUTO" : "Manual"}</span> 
-                  <Button 
-                    variant="contained" 
-                    onClick={() => handleStateChange(row.id, row.typeBool === 0 ? 1 : 0)}
-                    size="small" 
-                    className="greyButton"
-                    style={{ backgroundColor: '#bdbdbd', color: '#fff',
-                      marginLeft: '10px', width: '3px',padding: '0px',minWidth: '30px'}} // Removes space between text and button
-                  >
-                    ..
-                  </Button>
+                  <ChangeButton onChange={() => handleStateChange(row.id, row.typeBool === 0 ? 1 : 0)}/>
                 </div>
               </TableCell>
             </TableRow>
@@ -131,6 +111,19 @@ const SelectCell = ({ value, onChange, options }) => (
       ))}
     </Select>
   </TableCell>
+);
+
+const ChangeButton = ({ onChange }) => (
+  <Button 
+    variant="contained" 
+    onClick={onChange}
+    size="small" 
+    className="greyButton"
+    style={{ backgroundColor: '#bdbdbd', color: '#fff',
+      marginLeft: '10px', width: '3px',padding: '0px',minWidth: '30px'}} // Removes space between text and button
+  >
+    ..
+  </Button>
 );
 
 export default MuiTableWithInputs;
