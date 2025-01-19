@@ -1,136 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography, TextField, Button, Select, MenuItem } from '@mui/material';
 import HeaderTable from '../controls/HeaderTable';
-import {useNumber} from '../components/TypeSensorCounts'
+import {useNumber} from '../data/dataValues'
+import {useTableData} from '../data/useTableData'
+import {displayType, displayText, powerType, sensorType } from '../data/tableOptions';
 import '../styles.css';
 
 const MuiTableWithInputs = () => {
-  const [rows, setRows] = useState([
-    { id: 1, tagID: 0, name: 'NameText', displayTypeID: 0, offset: 'Not Used', manualValue: '0', displayTextID: 0, powerID: 0, sensorID: 0, typeBool: 0, },
-    { id: 2, tagID: 0, name: 'NameText', displayTypeID: 0, offset: 'Not Used', manualValue: '0', displayTextID: 0, powerID: 0, sensorID: 0, typeBool: 0, },
-  ]);
 
   const { sensorInputCount } = useNumber();
-
-  const displayType = [
-    { label: "None", value: 0 },
-    { label: "dropdownItem1", value: 1 },
-    { label: "dropdownItem2", value: 2 },
-    { label: "dropdownItem3", value: 3 },
-  ];
-
-  const displayText = [
-    { label: "Not Used", value: 0 },
-    { label: "dropdownItem1", value: 1 },
-    { label: "dropdownItem2", value: 2 },
-    { label: "dropdownItem3", value: 3 },
-    { label: "dropdownItem4", value: 4 },
-  ];
-
-  const powerType = [
-    { label: "Not Used", value: 0 },
-    { label: "dropdownItem1", value: 1 },
-    { label: "dropdownItem2", value: 2 },
-    { label: "dropdownItem3", value: 3 },
-    { label: "dropdownItem4", value: 4 },
-    { label: "dropdownItem5", value: 5 },
-  ];
-
-  const sensorType = [
-    { label: "Not Used", value: 0 },
-    { label: "dropdownItem1", value: 1 },
-    { label: "dropdownItem2", value: 2 },
-    { label: "dropdownItem3", value: 3 },
-    { label: "dropdownItem4", value: 4 },
-    { label: "dropdownItem5", value: 5 },
-    { label: "dropdownItem6", value: 6 },
-  ];
-
- // Function to save data to local storage to simulate file saving
-  const saveData = (newRows) => {
-    localStorage.setItem('tableData', JSON.stringify(newRows));
-    setRows(newRows);
-  };
-
-  //Change the type of point number
-  const handleChangeType = (rowId, field, value) => {
-    console.log(`Row ID: ${rowId}, Field: ${field}, Value: ${value}`);
-    // Add logic here to update state or data model
-  };
-
-  //Change the type of point number
-  const handleStateChange = (id, value) => {
-
-    const newRows = rows.map(row => {
-      if (row.id === id) {
-        return { ...row, typeBool: value };
-      }
-      return row;
-    });
-    setRows(newRows);
-    
-    saveData(newRows);
-    //console.log(`Row ID: ${rowId}, Field: ${field}, Value: ${value}`);
-    // Add logic here to update state or data model
-  };
-
-  const handleNameChange = (rowId, field, value) => {
-    console.log(`Row ID: ${rowId}, Field: ${field}, Value: ${value}`);
-    // Add logic here to update state or data model
-  };
-
-
-  // Function to handle the Select all Auto/Manual System
-  const handleModeChange = (rowId) => {
-    alert(`Button clicked for row ${rowId}`);
-  };
-
-  
-  //Selects the Drop Down
-  const handleSelectDisplayType = (event, id) => {
-    const newRows = rows.map(row => {
-      if (row.id === id) {
-        return { ...row, displayTypeID: event.target.value };
-      }
-      return row;
-    });
-    setRows(newRows);
-  };
-
-  //Selects the Drop Down
-  const handleSelectDisplayText = (event, id) => {
-    const newRows = rows.map(row => {
-      if (row.id === id) {
-        return { ...row, displayTextID: event.target.value };
-      }
-      return row;
-    });
-    setRows(newRows);
-  };
-
-  //Selects the Drop Down
-  const handleSelectPowerType = (event, id) => {
-    const newRows = rows.map(row => {
-      if (row.id === id) {
-        return { ...row, powerID: event.target.value };
-      }
-      return row;
-    });
-    setRows(newRows);
-  };
-
-  //Selects the Drop Down
-  const handleSelectSensorType = (event, id) => {
-    const newRows = rows.map(row => {
-      if (row.id === id) {
-        return { ...row, sensorID: event.target.value };
-      }
-      return row;
-    });
-    setRows(newRows);
-  };
-
-
+  const { rows, 
+    handleModeChange,
+    handleChangeType,
+    handleNameChange,
+    handleSelectDisplayType,
+    handleOffsetChange,
+    handleManualChange,
+    handleSelectDisplayText,
+    handleSelectPowerType,
+    handleSelectSensorType,
+    handleStateChange,
+   } = useTableData();
 
   var tableBoarder = { marginTop: 1, borderRight: '5px solid #ccc' };
   var headerBoarder = { borderRight: '5px solid #ccc', borderLeft: '5px solid #ccc' };
@@ -139,37 +29,7 @@ const MuiTableWithInputs = () => {
 
   return (
     <div>
-    {/* <Box 
-      sx={{
-        width: '100%',
-        backgroundColor: '#c0c0c0',
-        color: 'black',
-        padding: 2,
-        display: 'flex',
-        justifyContent: 'center', // Centers horizontally
-        alignItems: 'center', // Centers vertically
-      }}>
-        <TableContainer component={Paper} sx={{ marginTop: 2, width: 'auto' }}>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TableCell>Total Number of SI's</TableCell>
-                <TableCell>{sensorInputCount}</TableCell>
-                <TableCell sx={{padding: '4px' }} >
-                  <IconButton  
-                    sx={{transform: 'rotate(180deg)' }} 
-                    variant="contained" color="primary" onClick={decrement}>
-                    <PlayArrowIcon />
-                  </IconButton>
-                  <IconButton variant="contained" color="secondary" onClick={increment}>
-                    <PlayArrowIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-    </Box>, */}
+    {}
     <HeaderTable />
     
     <Box 
@@ -205,14 +65,14 @@ const MuiTableWithInputs = () => {
             <TableRow key={row.id} style={{ backgroundColor: row.id > sensorInputCount ? 'yellow' : 'transparent' }}>
               <TableCell sx={dataBoarder}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span>{row.tagID}</span> {/* Text */}
+                  <span>{row.tagID}</span>
                   <Button 
                     variant="contained" 
                     onClick={() => handleChangeType(row.name)}
-                    size="small" // Makes the button smaller
+                    size="small" 
                     className="greyButton"
                     style={{ backgroundColor: '#bdbdbd', color: '#fff',
-                      marginLeft: '10px', width: '3px',padding: '0px',minWidth: '30px'}} // Adds space between text and button
+                      marginLeft: '10px', width: '3px',padding: '0px',minWidth: '30px'}} // Removes space between text and button
                   >
                     ..
                   </Button>
@@ -221,9 +81,7 @@ const MuiTableWithInputs = () => {
               <TableCell sx={dataBoarder}>
                 <TextField
                   defaultValue={row.name}
-                  //type="number"
-                  onChange={(e) => handleNameChange(row.id, 'displayname', e.target.value)}
-                  //variant="outlined"
+                  onChange={(e) => handleNameChange(row.id, 'name', e.target.value)}
                   size="small"
                 />
               </TableCell>
@@ -247,7 +105,7 @@ const MuiTableWithInputs = () => {
                 <TextField
                   defaultValue={row.offset}
                   //type="number"
-                  onChange={(e) => handleNameChange(row.id, 'displayname', e.target.value)}
+                  onChange={(e) => handleOffsetChange(row.id, 'offset', e.target.value)}
                   //variant="outlined"
                   size="small"
                 />
@@ -255,9 +113,7 @@ const MuiTableWithInputs = () => {
               <TableCell sx={dataBoarder}>
                 <TextField
                   defaultValue={row.manualValue}
-                  //type="number"
-                  onChange={(e) => handleNameChange(row.id, 'displayname', e.target.value)}
-                  //variant="outlined"
+                  onChange={(e) => handleManualChange(row.id, 'manual', e.target.value)}
                   size="small"
                 />
               </TableCell>
@@ -311,14 +167,14 @@ const MuiTableWithInputs = () => {
               </TableCell>
               <TableCell sx={dataBoarder}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span>{row.typeBool == 0 ? "AUTO" : "Manual"}</span> 
+                  <span>{row.typeBool === 0 ? "AUTO" : "Manual"}</span> 
                   <Button 
                     variant="contained" 
-                    onClick={() => handleStateChange(row.id, row.typeBool == 0 ? 1 : 0)}
-                    size="small" // Makes the button smaller
+                    onClick={() => handleStateChange(row.id, row.typeBool === 0 ? 1 : 0)}
+                    size="small" 
                     className="greyButton"
                     style={{ backgroundColor: '#bdbdbd', color: '#fff',
-                      marginLeft: '10px', width: '3px',padding: '0px',minWidth: '30px'}} // Adds space between text and button
+                      marginLeft: '10px', width: '3px',padding: '0px',minWidth: '30px'}} // Removes space between text and button
                   >
                     ..
                   </Button>

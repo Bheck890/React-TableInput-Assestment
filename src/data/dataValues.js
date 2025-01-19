@@ -4,8 +4,8 @@ const NumberContext = createContext(null);
 
 export const useNumber = () => useContext(NumberContext);
 
-export const NumberProvider = ({ children }) => {
-  const [sensorInputCount, setNumber] = useState(5);
+export const SensorNumber = ({ children }) => {
+  const [sensorInputCount, setNumber] = useState(1);
 
   // Functions to change the number
   const increment = () => 

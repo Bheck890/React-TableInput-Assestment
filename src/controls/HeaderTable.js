@@ -1,10 +1,9 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableRow, Paper, Box } from '@mui/material';
+import { useNumber } from '../data/dataValues.js'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import IconButton from '@mui/material/IconButton';
 import '../styles.css';
-import { useNumber } from '../components/TypeSensorCounts.js'
-// State to hold the number value
 
 const HeaderTable = () => {
 
