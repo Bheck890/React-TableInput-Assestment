@@ -1,19 +1,9 @@
-import { useState, useEffect  } from 'react';
-import { loadData, saveData } from '../utils/storageUtils';
+import { useState } from 'react';
+import { loadData } from '../utils/storageUtils';
 
 export const useTableData = () => {
     
-  const [rows, setRows] = useState(() => {
-    const initialData = loadData();
-    console.log("Initial data loaded:");
-    return initialData;
-});
-
-  useEffect(() => {
-    const initialRows = loadData();
-    setRows(initialRows);
-  }, []);  // Empty dependency array ensures this runs once on mount
-
+  const [rows, setRows] = useState(loadData());
 
   //Change the Point Number Type (Not applicable Currently)
   const handleChangeType = (rowId, value) => {
@@ -75,7 +65,6 @@ export const useTableData = () => {
       return row;
     });
     setRows(newRows);
-    saveData(newRows);
   };
 
 
@@ -89,19 +78,17 @@ export const useTableData = () => {
 
     const newRows = rows.map(row => {
       if (row.id === id) {
-        console.log(`State Change ${id}`);
         return { ...row, typeBool: value };
       }
       return row;
     });
 
     setRows(newRows);
-    //saveData(newRows);
   };
+  
 
   return {
     rows,
-    useEffect,
     handleModeChange,
     handleChangeType,
     handleNameChange,
