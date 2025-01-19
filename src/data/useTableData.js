@@ -70,7 +70,7 @@ export const useTableData = () => {
 
   // Function to handle the Select all Auto/Manual System
   const handleModeChange = (rowId) => {
-    alert(`Button clicked ${rowId} \nFuture Functionalty Coming`);
+    alert(`Button clicked ${rowId}`);
   };
 
   //Change the Auto/Manual System
