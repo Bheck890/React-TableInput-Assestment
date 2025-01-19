@@ -1,16 +1,16 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography, TextField, Button, Select, MenuItem } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableRow, Paper, Box, Typography, TextField, Button, Select, MenuItem } from '@mui/material';
 import HeaderTable from '../controls/HeaderTable';
 import {useNumber} from '../data/dataValues'
 import {useTableData} from '../data/useTableData'
 import {displayType, displayText, powerType, sensorType } from '../data/tableOptions';
+import {TableHeaderBasic} from '../controls/TableHeadComponent';
 import '../styles.css';
 
 const MuiTableWithInputs = () => {
 
   const { sensorInputCount } = useNumber();
-  const { rows, 
-    handleModeChange,
+  const { rows,
     handleChangeType,
     handleNameChange,
     handleSelectDisplayType,
@@ -23,7 +23,6 @@ const MuiTableWithInputs = () => {
    } = useTableData();
 
   var tableBoarder = { marginTop: 1, borderRight: '5px solid #ccc' };
-  var headerBoarder = { borderRight: '5px solid #ccc', borderLeft: '5px solid #ccc' };
   var dataBoarder = { borderRight: '2px solid #ccc' };
 
 
@@ -47,19 +46,7 @@ const MuiTableWithInputs = () => {
     
     <TableContainer component={Paper} sx={tableBoarder}>
       <Table>
-        <TableHead>
-          <TableRow>
-          <TableCell sx={headerBoarder}>Point Number</TableCell>
-          <TableCell sx={headerBoarder}>Name (1 to 10 char)</TableCell>
-          <TableCell sx={headerBoarder}>Display Type</TableCell>
-          <TableCell sx={headerBoarder}>Offset</TableCell>
-          <TableCell sx={headerBoarder}>Manual Value or NC/NO (Select to Change)</TableCell>
-          <TableCell sx={headerBoarder}>Display Text (Select to Change)</TableCell>
-          <TableCell sx={headerBoarder}>Temp./ GPM / CFM / Pwr Factor SI</TableCell>
-          <TableCell sx={headerBoarder}>Humed./ PSI/Temp,/ Diff./ Enthal. Diff.</TableCell>
-          <TableCell sx={headerBoarder} onClick={handleModeChange}>Auto/Manual (Click here for all)</TableCell>
-          </TableRow>
-        </TableHead>
+      <TableHeaderBasic />
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.id} style={{ backgroundColor: row.id > sensorInputCount ? 'yellow' : 'transparent' }}>
@@ -85,22 +72,7 @@ const MuiTableWithInputs = () => {
                   size="small"
                 />
               </TableCell>
-              <TableCell sx={dataBoarder}>
-                <Select
-                    style={{ 
-                      width: '100px',minWidth: '150px'}}
-                    value={row.displayTypeID}
-                    onChange={(event) => handleSelectDisplayType(event, row.id)}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                  >
-                    {displayType.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-              </TableCell>
+              <SelectCell value={row.displayTypeID} onChange={(event) => handleSelectDisplayType(event, row.id)} options={displayType} />
               <TableCell sx={dataBoarder}>
                 <TextField
                   defaultValue={row.offset}
@@ -117,54 +89,9 @@ const MuiTableWithInputs = () => {
                   size="small"
                 />
               </TableCell>
-              <TableCell sx={dataBoarder}>
-                <Select
-                    style={{ 
-                      width: '100px',minWidth: '150px'}}
-                    value={row.displayTextID}
-                    onChange={(event) => handleSelectDisplayText(event, row.id)}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                  >
-                    {displayText.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-              </TableCell>
-              <TableCell sx={dataBoarder}>
-                <Select
-                    style={{ 
-                      width: '100px',minWidth: '150px'}}
-                    value={row.powerID}
-                    onChange={(event) => handleSelectPowerType(event, row.id)}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                  >
-                    {powerType.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-              </TableCell>
-              <TableCell sx={dataBoarder}>
-                <Select
-                    style={{ 
-                      width: '100px',minWidth: '150px'}}
-                    value={row.sensorID}
-                    onChange={(event) => handleSelectSensorType(event, row.id)}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                  >
-                    {sensorType.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-              </TableCell>
+              <SelectCell value={row.displayTextID} onChange={(event) => handleSelectDisplayText(event, row.id)} options={displayText} />
+              <SelectCell value={row.powerID} onChange={(event) => handleSelectPowerType(event, row.id)} options={powerType} />
+              <SelectCell value={row.sensorID} onChange={(event) => handleSelectSensorType(event, row.id)} options={sensorType} />
               <TableCell sx={dataBoarder}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>{row.typeBool === 0 ? "AUTO" : "Manual"}</span> 
@@ -188,5 +115,22 @@ const MuiTableWithInputs = () => {
     </div>
   );
 };
+
+const SelectCell = ({ value, onChange, options }) => (
+  <TableCell>
+    <Select
+      style={{ width: '100px', minWidth: '150px' }}
+      value={value}
+      onChange={onChange}
+      displayEmpty
+      inputProps={{ 'aria-label': 'Without label' }}>
+      {options.map((option) => (
+        <MenuItem key={option.value} value={option.value}>
+          {option.label}
+        </MenuItem>
+      ))}
+    </Select>
+  </TableCell>
+);
 
 export default MuiTableWithInputs;
